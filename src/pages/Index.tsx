@@ -1,39 +1,65 @@
+import { useState, useEffect } from "react";
 import { Heart, Calendar, Clock, MapPin } from "lucide-react";
+import heroImage from "@/assets/wedding-hero.jpg";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23f472b6%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
-      
-      <div className="relative z-10">
-        <main className="container mx-auto">
-          {/* Hero Section */}
-          <section className="min-h-screen flex items-center justify-center text-center px-4 relative">
-            <div className="max-w-4xl mx-auto animate-fade-in">
-              <div className="relative mb-8">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Heart className="w-16 h-16 md:w-20 md:h-20 text-primary/20 animate-pulse" fill="currentColor" />
-                </div>
-                <Heart className="w-12 h-12 md:w-16 md:h-16 mx-auto text-primary animate-heartbeat relative z-10" fill="currentColor" />
-              </div>
-              <h1 className="font-playfair text-4xl md:text-7xl font-bold text-foreground mb-4 animate-text-reveal bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent bg-300% animate-gradient">
-                The Wedding
-              </h1>
-              <p className="font-playfair text-xl md:text-3xl text-muted-foreground mb-6 animate-slide-up-delayed">
-                A Celebration of Love
-              </p>
-              <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-foreground animate-fade-in-delayed">
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 hover:bg-white/20 hover:scale-105 transition-all duration-500 animate-glow">
-                  <Calendar className="w-4 h-4 md:w-5 md:h-5 text-primary" />
-                  <span className="font-sans text-sm md:text-base">Thursday, 23rd October 2025</span>
-                </div>
-              </div>
-            </div>
-          </section>
+  const [showLoader, setShowLoader] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
-          {/* Invitation Card Section */}
-          <section className="py-16 px-4 relative overflow-hidden">
+  useEffect(() => {
+    // Start fade out after 2.5 seconds
+    const fadeTimer = setTimeout(() => {
+      setFadeOut(true);
+    }, 2500);
+
+    // Remove loader completely after fade animation
+    const hideTimer = setTimeout(() => {
+      setShowLoader(false);
+    }, 3500);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(hideTimer);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted">
+      {/* Loader Screen */}
+      {showLoader && (
+        <div
+          className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-1000 ${
+            fadeOut ? "opacity-0" : "opacity-100"
+          }`}
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/60" />
+          <div className="relative z-10 text-center px-4 animate-fade-in">
+            <Heart className="w-20 h-20 mx-auto text-primary animate-pulse mb-8" fill="currentColor" />
+            <h1 className="font-playfair text-7xl md:text-9xl font-bold text-white mb-6 drop-shadow-2xl">
+              Aman's Wedding
+            </h1>
+            <p className="font-playfair text-3xl md:text-4xl text-white/90 drop-shadow-lg animate-pulse">
+              A Celebration of Love
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      {!showLoader && (
+        <div className="animate-fade-in relative overflow-hidden min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23f472b6%22%20fill-opacity%3D%220.05%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+          
+          <div className="relative z-10">
+        <main className="container mx-auto h-screen flex items-center justify-center px-2">
+          {/* Single Page Invitation */}
+          <section className="w-full max-w-md mx-auto relative overflow-hidden">
             {/* Floating Hearts Background */}
             <div className="absolute inset-0 pointer-events-none">
               {[...Array(10)].map((_, i) => (
@@ -52,105 +78,102 @@ const Index = () => {
               ))}
             </div>
 
-            <div className="max-w-4xl mx-auto relative z-10">
-              <div className="bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/10 border-2 border-primary/20 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <div className="w-full relative z-10">
+              <div className="bg-white/95 border-4 border-rose-300/50 rounded-3xl p-3 shadow-2xl relative overflow-hidden h-[95vh] backdrop-blur-sm animate-fade-in">
+                
+                {/* Decorative Corner Elements */}
+                <div className="absolute top-2 left-2 w-8 h-8 border-l-2 border-t-2 border-rose-300 rounded-tl-2xl animate-pulse"></div>
+                <div className="absolute top-2 right-2 w-8 h-8 border-r-2 border-t-2 border-rose-300 rounded-tr-2xl animate-pulse"></div>
+                <div className="absolute bottom-2 left-2 w-8 h-8 border-l-2 border-b-2 border-rose-300 rounded-bl-2xl animate-pulse"></div>
+                <div className="absolute bottom-2 right-2 w-8 h-8 border-r-2 border-b-2 border-rose-300 rounded-br-2xl animate-pulse"></div>
                 
                 {/* Header */}
-                <div className="text-center mb-8">
-                  <h2 className="font-playfair text-3xl md:text-5xl text-foreground mb-2">The Wedding</h2>
-                  <p className="text-muted-foreground text-lg italic mb-4">"In the name of Allah, the most Beneficent & Merciful & blessings of Rasule Karim(S.A.W.S.)"</p>
-                  <div className="w-24 h-0.5 bg-primary mx-auto mb-6"></div>
+                <div className="text-center mb-4 animate-slide-down">
+                  <div className="relative">
+                    <Heart className="w-10 h-10 mx-auto text-rose-500 animate-bounce mb-3" fill="currentColor" />
+                    <div className="absolute inset-0 animate-ping">
+                      <Heart className="w-10 h-10 mx-auto text-rose-300/50" fill="currentColor" />
+                    </div>
+                  </div>
+                  <h1 className="font-playfair text-3xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-2 animate-pulse">The Wedding</h1>
+                  <p className="text-gray-600 text-sm italic mb-3 animate-fade-in">"In the name of Allah, the most Beneficent & Merciful"</p>
+                  <div className="w-20 h-1 bg-gradient-to-r from-rose-400 to-pink-400 mx-auto mb-4 rounded-full animate-pulse"></div>
                 </div>
 
                 {/* Parents Names */}
-                <div className="text-center mb-8">
-                  <p className="text-muted-foreground text-base md:text-lg mb-4">Mrs. & Mr. Arif Rashid Sayyad</p>
-                  <p className="text-muted-foreground text-base mb-6">Request the pleasure of your company to attend the marriage ceremony of their Son</p>
+                <div className="text-center mb-3 animate-slide-up">
+                  <p className="text-gray-700 text-base mb-2 font-medium">Mrs. & Mr. Arif Rashid Sayyad</p>
+                  <p className="text-gray-600 text-sm mb-3">Request your company for their Son</p>
                 </div>
 
                 {/* Couple Names */}
-                <div className="text-center mb-8">
-                  <div className="bg-card/50 rounded-2xl p-6 border border-primary/20">
-                    <p className="text-muted-foreground mb-3 text-base md:text-lg">Grandson of Mrs. & Late Mr. Rashid Husein Sayyad & Late Haji Mrs. & Mr. Sardarmiya Balabal Mulla</p>
-                    <h2 className="font-playfair text-4xl md:text-6xl text-foreground mb-4 animate-pulse">Aman</h2>
-                    <div className="flex items-center justify-center mb-4">
-                      <div className="border border-primary/30 rounded-full p-2">
-                        <span className="text-primary font-bold text-lg">WITH</span>
+                <div className="text-center mb-4 animate-fade-in">
+                  <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-3xl p-4 border-2 border-rose-200 shadow-lg relative overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-r from-rose-100/30 to-pink-100/30 animate-pulse"></div>
+                    <div className="relative z-10">
+                      <h2 className="font-playfair text-4xl bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent mb-3 font-bold">Aman</h2>
+                      <div className="flex items-center justify-center mb-3">
+                        <div className="bg-gradient-to-r from-rose-400 to-pink-400 text-white px-4 py-1 rounded-full shadow-md">
+                          <span className="font-bold text-sm">WITH</span>
+                        </div>
                       </div>
+                      <h2 className="font-playfair text-4xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3 font-bold">Afroja</h2>
+                      <p className="text-gray-600 text-sm">(D/o Late Mrs. & Mr. Jahangir Shoukat Jamadar)</p>
                     </div>
-                    <h2 className="font-playfair text-4xl md:text-6xl text-foreground mb-4 animate-pulse" style={{animationDelay: '1s'}}>Wajia</h2>
-                    <p className="text-muted-foreground text-base md:text-lg">(D/o Late Mrs. & Mr. Jafanagir Shoukat Jamadar of Kawate Mahanandi)</p>
                   </div>
                 </div>
 
                 {/* Wedding Details */}
-                <div className="text-center mb-8">
-                  <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-6 border border-primary/10">
-                    <p className="text-foreground text-lg mb-2">◊ Welcome You ◊</p>
-                    <div className="flex items-center justify-center gap-4 mb-4">
-                      <span className="text-2xl">🕌</span>
-                      <div>
-                        <p className="text-foreground font-bold text-xl">Insha Allah</p>
-                        <p className="text-muted-foreground">निकाह</p>
+                <div className="text-center mb-4 animate-slide-up">
+                  <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl p-3 border-2 border-rose-200 shadow-md relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-rose-100/20 to-pink-100/20 animate-pulse rounded-2xl"></div>
+                    <div className="relative z-10">
+                      <p className="text-gray-700 text-base mb-2 font-semibold animate-pulse">◊ Welcome You ◊</p>
+                      <div className="flex items-center justify-center gap-2 mb-1">
+                        <Calendar className="w-5 h-5 text-rose-500 animate-pulse" />
+                        <p className="text-gray-700 text-base font-medium">Thursday, 23rd October 2025</p>
                       </div>
-                      <span className="text-2xl">🕌</span>
-                    </div>
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <Calendar className="w-5 h-5 text-primary" />
-                      <p className="text-foreground text-lg md:text-xl">On Thursday, 23rd October 2025</p>
-                    </div>
-                    <p className="text-muted-foreground text-base">(10th Rabi-ul-Sani 1447 Hijri)</p>
-                    <div className="flex items-center justify-center gap-2 mt-2">
-                      <Clock className="w-5 h-5 text-primary" />
-                      <p className="text-foreground text-lg md:text-xl">At 11:30am</p>
+                      <p className="text-gray-600 text-sm mb-1">(10th Rabi-ul-Sani 1447 Hijri)</p>
+                      <div className="flex items-center justify-center gap-2">
+                        <Clock className="w-5 h-5 text-rose-500 animate-pulse" />
+                        <p className="text-gray-700 text-base font-medium">At 11:30am</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Venue */}
-                <div className="text-center mb-8">
-                  <h3 className="font-playfair text-xl md:text-2xl text-foreground mb-4">◊ Venue ◊</h3>
-                  <div className="flex items-start justify-center gap-1">
-                    <MapPin className="w-5 h-5 text-primary mt-1" />
-                    <div className="text-foreground text-center">
-                      <p className="text-base md:text-lg font-semibold">At Shahi Darbar Hall</p>
-                      <p className="text-base md:text-lg">Takali Road, Miraj</p>
+                <div className="text-center mb-4 animate-fade-in">
+                  <h3 className="font-playfair text-xl text-gray-700 mb-2 font-bold">◊ Venue ◊</h3>
+                  <div className="flex items-start justify-center gap-2 mb-2">
+                    <MapPin className="w-5 h-5 text-rose-500 mt-1" />
+                    <div className="text-gray-700 text-center">
+                      <p className="text-base font-bold">Shahi Darbar Hall</p>
+                      <p className="text-base">Takali Road, Miraj</p>
                     </div>
                   </div>
-                  <div className="w-full flex justify-center mt-4">
-                    <a href="https://maps.google.com/?q=Shahi+Darbar+Hall+Takali+Road+Miraj" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full text-sm hover:bg-primary/90 transition-colors">
-                      <MapPin className="w-4 h-4" />
-                      Get Directions
-                    </a>
-                  </div>
+                  <a href="https://maps.google.com/?q=Shahi+Darbar+Hall+Takali+Road+Miraj" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full text-sm hover:from-rose-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <MapPin className="w-4 h-4" />
+                    Get Directions
+                  </a>
                 </div>
 
                 {/* Special Message */}
-                <div className="text-center mb-8">
-                  <div className="bg-gradient-to-r from-accent/10 to-primary/10 rounded-xl p-4 border border-accent/20">
-                    <p className="text-foreground text-base italic">Our Beloved Kids Join Us In Inviting You.</p>
-                    <p className="text-muted-foreground text-sm mt-2">Rayan, Riza, Alayua, Adan, Farhan, Hasnain, Bilal, Hamza</p>
+                <div className="text-center animate-slide-up">
+                  <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-3 border-2 border-purple-200 shadow-md">
+                    <p className="text-gray-700 text-sm italic font-medium">Our Beloved Kids Join Us In Inviting You</p>
+                    <p className="text-gray-600 text-sm mt-1">Rayan, Riza, Alayua, Adan, Farhan, Hasnain, Bilal, Hamza</p>
                   </div>
                 </div>
 
-                {/* Footer */}
-                <div className="text-center">
-                  <div className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 rounded-full shadow-lg backdrop-blur-sm border-2 border-primary/20">
-                    <Heart className="w-5 h-5 text-primary" fill="currentColor" />
-                    <div className="text-center">
-                      <p className="text-muted-foreground italic text-base">◊ With Best Compliments From ◊</p>
-                      <p className="font-playfair text-xl text-foreground">Mr. Mansur Rashid Sayyad &nbsp;&nbsp;&nbsp;&nbsp; Mr. Ishak Sardarmiya Mulla</p>
-                      <p className="font-playfair text-xl text-foreground">Mr. Aslam Abdullatif Mulla &nbsp;&nbsp;&nbsp;&nbsp; Mr. Asfar Ishak Rajab Mulla</p>
-                      <p className="text-muted-foreground text-base mt-2">Sayyad & Mulla Family, Relatives & Friends</p>
-                    </div>
-                    <Heart className="w-5 h-5 text-primary" fill="currentColor" />
-                  </div>
-                </div>
+
               </div>
             </div>
           </section>
-        </main>
-      </div>
+            </main>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -34,7 +34,7 @@ npm run dev
 ## Customization
 
 Edit the following in `src/pages/Index.tsx`:
-- Couple names (Aman & Wajia)
+- Couple names (Aman & Afroja)
 - Wedding date and time
 - Venue details and addresses
 - Family information
